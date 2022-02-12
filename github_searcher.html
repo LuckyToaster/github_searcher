@@ -5,9 +5,31 @@
     <title>Github Profile Searcher</title>
     <style>
 
+        body {
+            font-family: "Open Sans", sans-serif, Arial;
+            display: flex;
+            flex-flow: column;
+            align-items: center;
+        }
+
+        header {
+            padding: 15px;
+        }
+
+        input, button {
+            padding: 5px;
+        }
+
         .spinner {
             display: none; 
             text-align: center;
+        }
+
+        #profile-card {
+            display: none;
+            padding: 20px;
+            border: 1px solid grey;
+            border-radius: 5px;
         }
     </style>
 </head>
@@ -32,7 +54,7 @@
         </svg>
     </div>
 
-    <div>
+    <div id='profile-card'>
         <img>
         <a></a>
         <a></a>
@@ -54,10 +76,27 @@
         else  document.querySelector('.spinner').style.display = 'none'; // hide spinner
     }
 
-    function printResult(result) {
-        result.forEach(function (element) {
-            
-        })
+    function showProfileCard(boolean) {
+        if (boolean)
+            document.querySelector('#profile-card').style.display = 'flex';
+        else document.querySelector('#profile-card').style.display = 'none';
+    }
+
+
+    function printResult(json) {
+        let profileCard = document.querySelector('#profile-card');
+
+        let name = json.name;
+        let username = json.login;
+        let url = json.url;
+        let pfp = json.avatar_url;
+        let bio = json.bio;
+        let followers = json.followers;
+        let following = json.following;
+
+        profileCard.querySelector('img').href = url;
+
+        showProfileCard(true);
 
     }
 
@@ -65,16 +104,19 @@
         showSpinner(true);
         var url = 'https://api.github.com/users/' + query; // the search term
         // callback function to Algolia API
-        var miRespuesta = await fetch(url, { method: 'GET' }).then(function (response) {
+        
+        var miRespuesta = await fetch(url + query).then(function (response) {
             return response.json();
         });
+        showSpinner(false);
+        printResult(miRespuesta);
     }
 
     function search(event) {
         let search = document.querySelector('input');
         if (!search.value) return stopExecution(event);
         else {
-            printResult(getDataFromAPI(search.value));
+            getDataFromAPI(search.value);
             stopExecution(event);
         }
     }
