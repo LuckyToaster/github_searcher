@@ -24,6 +24,7 @@
             height: 250px;
             width: 250px;
             border-radius: 50%;
+            padding-bottom: 5px;
         }
 
         .spinner {
@@ -38,6 +39,7 @@
             border-radius: 5px;
         }
 
+        #name { font-size: 16pt;}
         #username {color: grey;}
 
     </style>
@@ -64,13 +66,18 @@
     </div>
 
     <div id='card'>
-        <img/>
+        <div>
+            <img/>
+        </div>
         <b id="name"></b><br>
         <span id="username"></span>
-        <a id="url"></a>
         <p id="bio"></p>
-        <span id="followers"></span> followers &#183;
-        <span id="following"></span> following<br>
+        <b id="followers"></b> followers &#183;
+        <b id="following"></b> following<br><br>
+        <span id="company"></span>
+        <span id="email"></span><br>
+        <span id="location"></span><br>
+        <span id="blog"></span>
     </div>
 </body>
 
@@ -87,28 +94,29 @@
         else spinner.style.display = 'none'; 
     }
 
-    function showProfileCard(boolean) {
+    function showCard(boolean) {
         let card = document.querySelector('#card');
-        if (boolean) card.style.display = 'flex';
+        if (boolean) card.style.display = 'block';
         else card.style.display = 'none';
     }
 
     function printResult(json) {
         let card = document.querySelector('#card');
         // fill out the card 
-        card.querySelector("#url").value = json.html_url;
+        //card.querySelector("#url").value = json.html_url;
         card.querySelector('img').src = `${json.avatar_url}`;
-        card.querySelector('#name').value = json.name;
-        card.querySelector('#username').value = json.login;
-        card.querySelector("#bio").value = json.bio;
-        card.querySelector("#followers").value = json.followers;
-        card.querySelector("#following").value = json.following;
-        card.querySelector("#company").value = json.company;       
-        card.querySelector("#email").value = json.email;       
-        card.querySelector("#location").value = json.location;       
-        card.querySelector("#blog").value = json.blog;       
+        document.querySelector('#name').innerHTML = json.name;
+        card.querySelector('#username').innerHTML = json.login;
+        card.querySelector("#bio").innerHTML = json.bio;
+        card.querySelector("#followers").innerHTML = json.followers;
+        card.querySelector("#following").innerHTML = json.following;
 
-        showProfileCard(true); 
+        card.querySelector("#company").innerHTML = json.company;       
+        card.querySelector("#email").innerHTML = json.email;       
+        card.querySelector("#location").innerHTML = json.location;       
+        card.querySelector("#blog").innerHTML = json.blog;       
+
+        showCard(true); 
         console.log(json);
     }
 
