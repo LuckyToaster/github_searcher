@@ -1,1 +1,2 @@
-# Github Profile Searcher
+# Github Profile Searcher 
+## Using Github Users API
