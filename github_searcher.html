@@ -101,25 +101,22 @@
 
     function printResult(json) {
         let card = document.querySelector('#card');
-        if (json.message = "Not Found") card.innerHTML = `<h3>User not Found</h3>`;
-        else {
-            // fill out the card 
-            //card.querySelector("#url").value = json.html_url;
-            card.querySelector('img').src = `${json.avatar_url}`;
-            card.querySelector('#name').innerHTML = json.name;
-            card.querySelector('#username').innerHTML = json.login;
-            card.querySelector("#bio").innerHTML = json.bio;
-            card.querySelector("#followers").innerHTML = json.followers;
-            card.querySelector("#following").innerHTML = json.following;
+        // fill out the card 
+        //card.querySelector("#url").value = json.html_url;
+        card.querySelector('img').src = `${json.avatar_url}`;
+        card.querySelector('#name').innerHTML = json.name;
+        card.querySelector('#username').innerHTML = json.login;
+        card.querySelector("#bio").innerHTML = json.bio;
+        card.querySelector("#followers").innerHTML = json.followers;
+        card.querySelector("#following").innerHTML = json.following;
 
-            card.querySelector("#company").innerHTML = json.company;       
-            card.querySelector("#email").innerHTML = json.email;       
-            card.querySelector("#location").innerHTML = json.location;       
-            card.querySelector("#blog").innerHTML = json.blog;       
+        card.querySelector("#company").innerHTML = json.company;       
+        card.querySelector("#email").innerHTML = json.email;       
+        card.querySelector("#location").innerHTML = json.location;       
+        card.querySelector("#blog").innerHTML = json.blog;       
 
-            showCard(true); 
-            console.log(json);
-        }
+        showCard(true); 
+        console.log(json);
     }
 
     async function getDataFromAPI(username) {
