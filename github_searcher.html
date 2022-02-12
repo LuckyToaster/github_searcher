@@ -20,17 +20,26 @@
             padding: 5px;
         }
 
+        img {
+            height: 250px;
+            width: 250px;
+            border-radius: 50%;
+        }
+
         .spinner {
             display: none; 
             text-align: center;
         }
 
-        #profile-card {
+        #card {
             display: none;
             padding: 20px;
-            border: 1px solid grey;
+            border: 1px solid lightgrey;
             border-radius: 5px;
         }
+
+        #username {color: grey;}
+
     </style>
 </head>
 
@@ -54,15 +63,17 @@
         </svg>
     </div>
 
-    <div id='profile-card'>
-        <img>
-        <a></a>
-        <a></a>
-        <a></a>
-        <a></a>
+    <div id='card'>
+        <img/>
+        <b id="name"></b><br>
+        <span id="username"></span>
+        <a id="url"></a>
+        <p id="bio"></p>
+        <span id="followers"></span> followers &#183;
+        <span id="following"></span> following<br>
     </div>
-
 </body>
+
 <script>
 
     function stopExecution(e) {
@@ -71,45 +82,44 @@
     }
 
     function showSpinner(boolean) {
-        if (boolean) 
-             document.querySelector('.spinner').style.display = 'block'; // show spinner
-        else  document.querySelector('.spinner').style.display = 'none'; // hide spinner
+        let spinner = document.querySelector('.spinner');
+        if (boolean) spinner.style.display = 'block'; 
+        else spinner.style.display = 'none'; 
     }
 
     function showProfileCard(boolean) {
-        if (boolean)
-            document.querySelector('#profile-card').style.display = 'flex';
-        else document.querySelector('#profile-card').style.display = 'none';
+        let card = document.querySelector('#card');
+        if (boolean) card.style.display = 'flex';
+        else card.style.display = 'none';
     }
-
 
     function printResult(json) {
-        let profileCard = document.querySelector('#profile-card');
+        let card = document.querySelector('#card');
+        // fill out the card 
+        card.querySelector("#url").value = json.html_url;
+        card.querySelector('img').src = `${json.avatar_url}`;
+        card.querySelector('#name').value = json.name;
+        card.querySelector('#username').value = json.login;
+        card.querySelector("#bio").value = json.bio;
+        card.querySelector("#followers").value = json.followers;
+        card.querySelector("#following").value = json.following;
+        card.querySelector("#company").value = json.company;       
+        card.querySelector("#email").value = json.email;       
+        card.querySelector("#location").value = json.location;       
+        card.querySelector("#blog").value = json.blog;       
 
-        let name = json.name;
-        let username = json.login;
-        let url = json.url;
-        let pfp = json.avatar_url;
-        let bio = json.bio;
-        let followers = json.followers;
-        let following = json.following;
-
-        profileCard.querySelector('img').href = url;
-
-        showProfileCard(true);
-
+        showProfileCard(true); 
+        console.log(json);
     }
 
-    async function getDataFromApi(query) {
+    async function getDataFromAPI(username) {
         showSpinner(true);
-        var url = 'https://api.github.com/users/' + query; // the search term
-        // callback function to Algolia API
-        
-        var miRespuesta = await fetch(url + query).then(function (response) {
+        var url = 'https://api.github.com/users/' + username; 
+        var json = await fetch(url).then(function (response) {
             return response.json();
         });
         showSpinner(false);
-        printResult(miRespuesta);
+        printResult(json);
     }
 
     function search(event) {
