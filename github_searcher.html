@@ -47,6 +47,14 @@
             border-radius: 5px;
         }
 
+        #followers_url:hover, #following_url:hover { color: blue;}
+        #followers_url, #following_url {
+            text-decoration: none;
+            color: black;
+        }
+
+
+
         #name { font-size: 16pt;}
         #username {color: grey;}
 
@@ -81,8 +89,11 @@
         <span id="username"></span>
         <button id="edit">Edit Profile</button>
         <p id="bio"></p>
-        <b id="followers"></b> followers <b>&#183;</b>
-        <b id="following"></b> following<br><br>
+        <b id="followers"></b> 
+        <a id='followers_url' target="_blank">followers</a> <b>&#183;</b>
+        <b id="following"></b> 
+        <a id="following_url" target="_blank">following</a>
+        <br><br>
         <span id="company"></span>
         <span id="email"></span><br>
         <span id="location"></span><br>
@@ -109,7 +120,7 @@
         else card.style.display = 'none';
     }
 
-    function printResult(json) {
+    function printResult(json, username) {
         let card = document.querySelector('#card');
         // fill out the card 
         //card.querySelector("#url").value = json.html_url;
@@ -119,6 +130,8 @@
         card.querySelector("#bio").innerHTML = json.bio;
         card.querySelector("#followers").innerHTML = json.followers;
         card.querySelector("#following").innerHTML = json.following;
+        card.querySelector('#followers_url').href = `https:github.com/${username}?tab=followers`;
+        card.querySelector('#following_url').href = `https:github.com/${username}?tab=following`;
 
         card.querySelector("#company").innerHTML = json.company;       
         card.querySelector("#email").innerHTML = json.email;       
@@ -136,7 +149,7 @@
             return response.json();
         });
         showSpinner(false);
-        printResult(json);
+        printResult(json, username);
     }
 
     function search(event) {
